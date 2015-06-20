@@ -1,45 +1,4 @@
 /**
- * [将context传递给订阅者 ，默认上下文 为window对象]
- * @param  {[type]} root [description]
- * @return {[type]}      [description]
- */
-(function(root){
-
-	/**
-	 * [guidGanerator 生成唯一的id]
-	 * @return {[type]} [description]
-	 */
-	function guidGanerator(){
-		var count = 0;
-		return (function(){
-			return count++;
-		})();
-	};
-
-	/**
-	 * [Subscriber 订阅者构造函数]
-	 * @param {Function} fn      [description]
-	 * @param {[type]}   options [description]
-	 * @param {[type]}   context [description]
-	 */
-	function Subscriber( fn , options , context ) {
-		if ( !this instanceof Subscriber ) {
-			return new Subscriber( fn , options , context);
-		}else{
-			this.id = guidGanerator();
-			this.fn = fn;
-			this.options = options;
-			this.context = context;
-			this.topic = null;
-		}
-	};
-
-	root.Mediator = mediator;
-	Mediator.Topic = Topic;
-	Mediator.Subscriber = Subscriber;
-})(window);
-
-/**
  * [Topic 模拟订阅者]
  * @param {[type]} namespace [description]
  */
@@ -101,7 +60,7 @@ Topic.prototype =  {
 	 * @param {[type]} topic [description]
 	 */
 	addTopic : function ( topic ) {
-		this._topics[topic] = new Topic(this.namespace ? this.namespace+':'+topic : '');
+		this._topics[topic] = new Topic( ( this.namespace ? this.namespace+':' : '') +topic ) ;
 	},
 
 	/**
